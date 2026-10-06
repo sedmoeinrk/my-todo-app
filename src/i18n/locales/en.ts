@@ -171,6 +171,14 @@ const en = {
       titleRequired: 'Please enter a title',
     },
   },
+  datePicker: {
+    placeholder: 'No due date',
+    calendar: 'Calendar',
+    prevMonth: 'Previous month',
+    nextMonth: 'Next month',
+    today: 'Today',
+    clear: 'Clear date',
+  },
   priority: {
     high: 'High',
     medium: 'Medium',

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { Button } from '../../components/ui/Button'
 import { controlClass } from '../../components/ui/controlClass'
+import { DatePicker } from '../../components/ui/DatePicker'
 import { Field } from '../../components/ui/Field'
 import { Modal } from '../../components/ui/Modal'
 import { TextField } from '../../components/ui/TextField'
@@ -65,7 +66,7 @@ function TodoForm({ todo, defaultCategoryId, defaultStarred, onDone }: TodoFormP
     todo?.categoryId ?? defaultCategoryId ?? categories[0]?.id ?? '',
   )
   const [priority, setPriority] = useState<Priority>(todo?.priority ?? 'medium')
-  const [dueDate, setDueDate] = useState(todo?.dueDate ?? '')
+  const [dueDate, setDueDate] = useState<string | null>(todo?.dueDate ?? null)
   const [starred, setStarred] = useState(todo?.starred ?? defaultStarred ?? false)
   const [submitted, setSubmitted] = useState(false)
 
@@ -85,7 +86,7 @@ function TodoForm({ todo, defaultCategoryId, defaultStarred, onDone }: TodoFormP
       description: description.trim(),
       categoryId,
       priority,
-      dueDate: dueDate || null,
+      dueDate,
       starred,
     }
     if (todo) dispatch(todoUpdated({ id: todo.id, changes: fields }))
@@ -117,32 +118,25 @@ function TodoForm({ todo, defaultCategoryId, defaultStarred, onDone }: TodoFormP
         />
       </Field>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label={t('todos.fields.category')} htmlFor={ids.category}>
-          <select
-            id={ids.category}
-            value={categoryId}
-            onChange={(e) => setCategoryId(e.target.value)}
-            className={cn(controlClass(), 'h-11')}
-          >
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {label(c)}
-              </option>
-            ))}
-          </select>
-        </Field>
+      <Field label={t('todos.fields.category')} htmlFor={ids.category}>
+        <select
+          id={ids.category}
+          value={categoryId}
+          onChange={(e) => setCategoryId(e.target.value)}
+          className={cn(controlClass(), 'h-11')}
+        >
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>
+              {label(c)}
+            </option>
+          ))}
+        </select>
+      </Field>
 
-        <Field label={t('todos.fields.dueDate')} htmlFor={ids.dueDate}>
-          <input
-            id={ids.dueDate}
-            type="date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-            className={cn(controlClass(), 'h-11')}
-          />
-        </Field>
-      </div>
+      {/* Full width so the inline calendar has room */}
+      <Field label={t('todos.fields.dueDate')} htmlFor={ids.dueDate}>
+        <DatePicker id={ids.dueDate} value={dueDate} onChange={setDueDate} />
+      </Field>
 
       <fieldset>
         <legend className="mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">

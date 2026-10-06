@@ -9,7 +9,7 @@ A modern, responsive todo app built with **Vite + React + TypeScript**, **Redux 
 - 🗂️ **Categories** — color-coded; selecting one shows only that category's todos
 - ⭐ **Dashboard** — your 5 most important starred todos, stats and per-category progress
 - 🌗 **Light / dark theme**
-- 🌍 **English / Persian** — full right-to-left layout, Persian digits and calendar
+- 🌍 **English / Persian** — full right-to-left layout, Persian digits, and a Persian (Solar Hijri) date picker
 - 📱 **Responsive** — sidebar on desktop; drawer and bottom tab bar on mobile
 - 💾 **Saved in localStorage** — behind a storage interface, ready to swap for a database
 

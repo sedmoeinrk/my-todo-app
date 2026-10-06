@@ -18,6 +18,7 @@ Every step was reviewed and approved before moving on to the next.
 7. [Theme & language (English / Persian)](#step-7--theme--language-english--persian)
 8. [Polish & browser testing](#step-8--polish--browser-testing)
 9. [Documentation & GitHub](#step-9--documentation--github)
+- [Addition — Persian date picker](#addition--persian-date-picker)
 - [Project structure](#project-structure)
 - [Moving to a real database later](#moving-to-a-real-database-later)
 - [Known limitations](#known-limitations)
@@ -213,6 +214,23 @@ dashboard, category filtering, add / complete / archive / delete, the mobile dra
 
 ---
 
+## Addition — Persian date picker
+
+The browser's native date input always shows the Gregorian calendar, so it was replaced with a custom picker (`src/components/ui/DatePicker.tsx`) that follows the UI language:
+
+| | Persian (فارسی) | English |
+|---|---|---|
+| Calendar | Solar Hijri (فروردین … اسفند) | Gregorian |
+| Week starts | Saturday (ش) | Sunday |
+| Digits | ۰–۹ | 0–9 |
+
+- **Calendar logic** lives in `src/lib/calendar.ts`: one `CalendarSystem` interface with a Gregorian and a Persian implementation. Persian ↔ Gregorian conversion uses the small [`jalaali-js`](https://github.com/jalaali/jalaali-js) library (`npm install jalaali-js`).
+- **Storage is unchanged:** the picker reads and writes Gregorian ISO dates (`yyyy-mm-dd`), so existing todos, sorting and "overdue" logic keep working.
+- **UX:** the calendar opens *inline* below the field (so it is never clipped inside the scrollable dialog), highlights today, has **Today** and **Clear** shortcuts, and **Escape** closes the calendar before the dialog.
+- **Verified** with a script: every day 2025–2027 converts to the calendar and back correctly, leap years (Esfand 30 in 1403, Feb 29 in 2028) and month navigation across year boundaries work; then checked visually in both languages.
+
+---
+
 ## Project structure
 
 ```
@@ -249,5 +267,4 @@ The app was built so this is a contained change:
 ## Known limitations
 
 - Data and accounts live in this browser only (by design for now).
-- The due-date picker is the browser's native one, so it shows the Gregorian calendar even in Persian (dates are *displayed* in the Persian calendar).
 - Dialogs close with Escape, but keyboard focus is not trapped inside an open dialog.

@@ -15,6 +15,12 @@ export const getDayPeriod = (hour: number): DayPeriod => {
   return 'night'
 }
 
+/** Full date with year for form fields, e.g. "Oct 7, 2026" / "۱۵ مهر ۱۴۰۵". */
+export const formatDateWithYear = (isoDate: string, language: string) =>
+  new Intl.DateTimeFormat(language === 'fa' ? 'fa-IR' : 'en-US', { dateStyle: 'medium' }).format(
+    new Date(`${isoDate}T00:00:00`),
+  )
+
 /** Formats a yyyy-mm-dd date for the UI language (Persian uses the Solar Hijri calendar). */
 export const formatDate = (isoDate: string, language: string) => {
   const date = new Date(`${isoDate}T00:00:00`)

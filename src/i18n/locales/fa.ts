@@ -175,6 +175,14 @@ const fa: typeof en = {
       titleRequired: 'لطفاً عنوان را وارد کنید',
     },
   },
+  datePicker: {
+    placeholder: 'بدون موعد',
+    calendar: 'تقویم',
+    prevMonth: 'ماه قبل',
+    nextMonth: 'ماه بعد',
+    today: 'امروز',
+    clear: 'حذف تاریخ',
+  },
   priority: {
     high: 'زیاد',
     medium: 'متوسط',
