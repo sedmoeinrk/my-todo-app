@@ -1,0 +1,53 @@
+@import 'tailwindcss';
+
+/* Dark mode is toggled by a `dark` class on <html>, not the OS setting */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', 'Vazirmatn', system-ui, sans-serif;
+  --font-fa: 'Vazirmatn', 'Inter', system-ui, sans-serif;
+
+  --color-brand-50: oklch(0.97 0.02 280);
+  --color-brand-100: oklch(0.94 0.04 280);
+  --color-brand-200: oklch(0.88 0.08 280);
+  --color-brand-300: oklch(0.8 0.12 280);
+  --color-brand-400: oklch(0.7 0.17 280);
+  --color-brand-500: oklch(0.6 0.2 280);
+  --color-brand-600: oklch(0.52 0.21 280);
+  --color-brand-700: oklch(0.45 0.19 280);
+  --color-brand-800: oklch(0.38 0.15 280);
+  --color-brand-900: oklch(0.3 0.11 280);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+
+@layer base {
+  html {
+    @apply bg-slate-50 text-slate-800 antialiased;
+    color-scheme: light;
+  }
+
+  html.dark {
+    @apply bg-slate-950 text-slate-100;
+    color-scheme: dark;
+  }
+
+  html[lang='fa'] body {
+    font-family: var(--font-fa);
+  }
+
+  body {
+    @apply min-h-svh;
+  }
+}
