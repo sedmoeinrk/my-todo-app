@@ -20,6 +20,7 @@ Every step was reviewed and approved before moving on to the next.
 9. [Documentation & GitHub](#step-9--documentation--github)
 - [Addition — Persian date picker](#addition--persian-date-picker)
 - [Addition — Keyboard focus trap in dialogs](#addition--keyboard-focus-trap-in-dialogs)
+- [Deployment — Vercel](#deployment--vercel)
 - [Project structure](#project-structure)
 - [Moving to a real database later](#moving-to-a-real-database-later)
 - [Known limitations](#known-limitations)
@@ -244,6 +245,24 @@ Dialogs (new/edit todo, categories, delete confirmations) and the mobile menu no
 > Inside a trap, use `data-autofocus` instead of React's `autoFocus`: `autoFocus` moves focus *before* the trap can record which element to return to on close.
 
 **Verified in Chrome with real key presses:** 30× Tab in the todo dialog and 25× Tab + 25× Shift+Tab in the mobile menu never left them; Escape returned focus to the opener every time, including through two stacked dialogs.
+
+---
+
+## Deployment — Vercel
+
+**Live:** https://my-todo-app-nine-pied.vercel.app
+
+1. Added `vercel.json`. Besides the Vite build settings, it **rewrites every path to `index.html`**, so links like `/todos` or `/settings` work when opened directly or refreshed (React Router then shows the right page). Real files such as `/assets/*.js` are still served as-is.
+2. Logged in and deployed with the Vercel CLI:
+   ```bash
+   npx vercel login
+   npx vercel link --yes --project my-todo-app
+   npx vercel deploy --prod --yes
+   ```
+3. Linking also **connected the GitHub repo**, so every push to `main` now deploys automatically.
+4. `vercel link` created `.vercel/` and `.env.local` (a Vercel token); both are in `.gitignore` and never committed.
+
+> Data is still per browser *and per site*: accounts and todos created on `localhost` don't appear on the Vercel site, and vice versa.
 
 ---
 

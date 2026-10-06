@@ -1,5 +1,7 @@
 # My Todo App
 
+**Live demo:** https://my-todo-app-nine-pied.vercel.app
+
 A modern, responsive todo app built with **Vite + React + TypeScript**, **Redux Toolkit**, **React Router** and **Tailwind CSS** — in **English and Persian (فارسی)**, with light and dark themes.
 
 ## Features
