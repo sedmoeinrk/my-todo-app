@@ -84,7 +84,7 @@ function CategoryForm({ category, onDone }: { category?: Category; onDone: () =>
         onChange={(e) => setName(e.target.value)}
         maxLength={NAME_MAX}
         error={error}
-        autoFocus
+        data-autofocus
       />
 
       <fieldset>

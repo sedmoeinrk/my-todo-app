@@ -103,7 +103,7 @@ function TodoForm({ todo, defaultCategoryId, defaultStarred, onDone }: TodoFormP
         onChange={(e) => setTitle(e.target.value)}
         maxLength={TITLE_MAX}
         error={titleError}
-        autoFocus
+        data-autofocus
       />
 
       <Field label={t('todos.fields.description')} htmlFor={ids.description}>

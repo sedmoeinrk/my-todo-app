@@ -5,6 +5,7 @@ import { Link, Outlet, ScrollRestoration, useMatch } from 'react-router-dom'
 import { LanguageToggle, ThemeToggle } from '../../features/settings/QuickToggles'
 import { TodoFormDialog } from '../../features/todos/TodoFormDialog'
 import { cn } from '../../lib/cn'
+import { useFocusTrap } from '../../lib/useFocusTrap'
 import { IconButton } from '../ui/IconButton'
 import { BottomNav } from './BottomNav'
 import { Sidebar } from './Sidebar'
@@ -17,6 +18,8 @@ export function AppLayout() {
   const { t } = useTranslation()
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [adding, setAdding] = useState(false)
+  // Keyboard focus stays in the drawer while open and returns to the menu button after.
+  const drawerRef = useFocusTrap<HTMLElement>(drawerOpen)
 
   // When viewing a category, new todos default to it.
   const categoryMatch = useMatch('/todos/:categoryId')
@@ -73,9 +76,14 @@ export function AppLayout() {
           )}
         />
         <aside
+          ref={drawerRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label={t('nav.main')}
+          tabIndex={-1}
           inert={!drawerOpen}
           className={cn(
-            'absolute inset-y-0 start-0 w-72 max-w-[85vw] bg-white shadow-2xl transition-transform duration-300 dark:bg-slate-900',
+            'absolute inset-y-0 start-0 w-72 max-w-[85vw] bg-white shadow-2xl outline-none transition-transform duration-300 dark:bg-slate-900',
             drawerOpen ? 'translate-x-0' : '-translate-x-full rtl:translate-x-full',
           )}
         >

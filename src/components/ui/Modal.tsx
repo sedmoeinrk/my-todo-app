@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { cn } from '../../lib/cn'
+import { useFocusTrap } from '../../lib/useFocusTrap'
 
 interface ModalProps {
   open: boolean
@@ -17,10 +18,12 @@ interface ModalProps {
 /**
  * Centered dialog on desktop, bottom sheet on mobile.
  * Children are unmounted while closed, so forms inside start fresh each time.
+ * Keyboard focus is trapped inside while open; mark the field to focus first with `data-autofocus`.
  */
 export function Modal({ open, onClose, title, description, size = 'md', children }: ModalProps) {
   const { t } = useTranslation()
   const titleId = useId()
+  const dialogRef = useFocusTrap<HTMLDivElement>(open)
 
   useEffect(() => {
     if (!open) return
@@ -46,11 +49,13 @@ export function Modal({ open, onClose, title, description, size = 'md', children
         className="absolute inset-0 bg-slate-950/50 backdrop-blur-sm animate-[fade-in_150ms_ease-out]"
       />
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
+        tabIndex={-1}
         className={cn(
-          'relative flex max-h-[92svh] w-full flex-col rounded-t-3xl bg-white shadow-2xl ring-1 ring-slate-200',
+          'relative flex max-h-[92svh] w-full flex-col rounded-t-3xl bg-white shadow-2xl ring-1 ring-slate-200 outline-none',
           'animate-[sheet-in_200ms_ease-out] sm:rounded-3xl dark:bg-slate-900 dark:ring-slate-800',
           size === 'sm' ? 'sm:max-w-md' : 'sm:max-w-lg',
         )}

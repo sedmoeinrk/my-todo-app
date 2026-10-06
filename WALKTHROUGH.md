@@ -19,6 +19,7 @@ Every step was reviewed and approved before moving on to the next.
 8. [Polish & browser testing](#step-8--polish--browser-testing)
 9. [Documentation & GitHub](#step-9--documentation--github)
 - [Addition — Persian date picker](#addition--persian-date-picker)
+- [Addition — Keyboard focus trap in dialogs](#addition--keyboard-focus-trap-in-dialogs)
 - [Project structure](#project-structure)
 - [Moving to a real database later](#moving-to-a-real-database-later)
 - [Known limitations](#known-limitations)
@@ -231,6 +232,21 @@ The browser's native date input always shows the Gregorian calendar, so it was r
 
 ---
 
+## Addition — Keyboard focus trap in dialogs
+
+Dialogs (new/edit todo, categories, delete confirmations) and the mobile menu now keep keyboard focus inside while open, using a small reusable hook, `src/lib/useFocusTrap.ts`:
+
+1. **On open**, focus moves into the dialog — to the element marked `data-autofocus` (e.g. the title field), otherwise the first focusable element.
+2. **Tab / Shift+Tab wrap** at the last / first control, and focus is pulled back if it escapes (e.g. after a click outside).
+3. **On close**, focus returns to the element that opened the dialog (e.g. the "New todo" button).
+4. **Stacked dialogs** (Manage categories → Edit category) — only the topmost one traps focus.
+
+> Inside a trap, use `data-autofocus` instead of React's `autoFocus`: `autoFocus` moves focus *before* the trap can record which element to return to on close.
+
+**Verified in Chrome with real key presses:** 30× Tab in the todo dialog and 25× Tab + 25× Shift+Tab in the mobile menu never left them; Escape returned focus to the opener every time, including through two stacked dialogs.
+
+---
+
 ## Project structure
 
 ```
@@ -267,4 +283,3 @@ The app was built so this is a contained change:
 ## Known limitations
 
 - Data and accounts live in this browser only (by design for now).
-- Dialogs close with Escape, but keyboard focus is not trapped inside an open dialog.

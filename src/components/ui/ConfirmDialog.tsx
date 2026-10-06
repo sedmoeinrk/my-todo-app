@@ -23,7 +23,7 @@ export function ConfirmDialog({ open, title, message, confirmLabel, onConfirm, o
         </Button>
         <Button
           variant="danger"
-          autoFocus
+          data-autofocus
           onClick={() => {
             onConfirm()
             onClose()
